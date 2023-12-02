@@ -31,11 +31,11 @@ fn main() {
     map_nums_values.insert("eight", '8');
     map_nums_values.insert("nine", '9');
 
-    let numbers = vec!["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]; 
+    let _numbers = vec!["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]; 
     let mut last: char = ' ';
     let mut first: char = ' ';
     let mut total: i32 = 0;
-    for (i, line) in lines.iter().enumerate() {
+    for (_i, line) in lines.iter().enumerate() {
         for (j, char) in line.chars().enumerate() {
             if char.is_numeric() {
                 if first == ' ' {
