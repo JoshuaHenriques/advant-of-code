@@ -12,7 +12,7 @@ fn main() {
         .map(|line| line.expect("Could not parse line!"))
         .collect();
 
-    let mut map_nums = HashMap::new();
+    let mut map_nums: HashMap<char, Vec<&str>> = HashMap::new();
     map_nums.insert('o', vec!["one"]);
     map_nums.insert('t', vec!["two", "three"]);
     map_nums.insert('f', vec!["four", "five"]);
@@ -20,7 +20,7 @@ fn main() {
     map_nums.insert('e', vec!["eight"]);
     map_nums.insert('n', vec!["nine"]);
 
-    let mut map_nums_values = HashMap::new();
+    let mut map_nums_values: HashMap<&str, char> = HashMap::new();
     map_nums_values.insert("one", '1');
     map_nums_values.insert("two", '2');
     map_nums_values.insert("three", '3');
@@ -32,9 +32,9 @@ fn main() {
     map_nums_values.insert("nine", '9');
 
     let numbers = vec!["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]; 
-    let mut last = ' ';
-    let mut first = ' ';
-    let mut total = 0;
+    let mut last: char = ' ';
+    let mut first: char = ' ';
+    let mut total: i32 = 0;
     for (i, line) in lines.iter().enumerate() {
         for (j, char) in line.chars().enumerate() {
             if char.is_numeric() {
@@ -44,17 +44,18 @@ fn main() {
                     last = char;
                 }
             } else if map_nums.contains_key(&char) {
-                let arr = map_nums.get(&char);
-                for (_, num) in arr.iter().enumerate() {
-                    let substr = line.substring(j, j + num.len() - 1);
+                let arr: &Vec<&str> = map_nums.get(&char).unwrap();
+                // println!("{arr:?}");
+                for num in arr.iter() {
+                    let substr = line.substring(j, j + num.len());
                     println!("substr: {:?}, num: {:?}, num.len(): {}", substr, num, num.len());
-                    // if num == substr {
-                    //     if first == ' ' {
-                    //         first = *map_nums_values.get(num).unwrap();
-                    //     } else {
-                    //         last = *map_nums_values.get(num).unwrap();
-                    //     }
-                    // }
+                    if *num == substr {
+                        if first == ' ' {
+                            first = *map_nums_values.get(num).unwrap();
+                        } else {
+                            last = *map_nums_values.get(num).unwrap();
+                        }
+                    }
                 }
             }
         }
