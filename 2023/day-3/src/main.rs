@@ -8,7 +8,7 @@ fn main() {
     let file = File::open("input.txt").expect("No such file!");
     let buf = BufReader::new(file);
     let lines: Vec<String> = buf.lines()
-        .map(|line| line.expect("Could not parse line!"))
+        .map(|line| line.expect("Could nOt parse line!"))
         .collect();
 
     let ROWS: usize = lines.len();
