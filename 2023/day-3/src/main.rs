@@ -11,11 +11,11 @@ fn main() {
         .map(|line| line.expect("Could nOt parse line!"))
         .collect();
 
-    let ROWS: usize = lines.len();
-    let COLS: usize = lines[1].len();
+    let ROWS: isize = lines.len().try_into().unwrap();
+    let COLS: isize = lines[1].len().try_into().unwrap();
 
     // println!("strlen: {}, lineslen: {}", lines[1].len(), lines.len());
-    let mut matrix: Vec<Vec<char>> = vec![vec!['.'; COLS];ROWS];
+    let mut matrix: Vec<Vec<char>> = vec![vec!['.'; COLS.try_into().unwrap()];ROWS.try_into().unwrap()];
 
 
     for (i, line) in lines.iter().enumerate() {
@@ -26,11 +26,13 @@ fn main() {
 
     let mut curr_num: Vec<isize> = vec![];
     let mut valid: bool = false;
+    let mut total: isize = 0;
 
     for row in 0..=ROWS - 1 {
         for col in 0..=COLS - 1 {
             if matrix[row as usize][col as usize].is_numeric() {
-                curr_num.push(matrix[row as usize][col as usize] as isize);
+                println!("num: {:}", matrix[row as usize][col as usize].to_digit(10).unwrap() as isize);
+                curr_num.push(matrix[row as usize][col as usize].to_digit(10).unwrap() as isize);
                 
                 if !valid {
                     let dir: Vec<Vec<isize>> = vec![[0, -1].to_vec(), [0, 1].to_vec(), [1, 0].to_vec(), [-1, 0].to_vec(), [-1, -1].to_vec(), [1, 1].to_vec(), [-1, 1].to_vec(), [1, -1].to_vec()];
@@ -43,15 +45,24 @@ fn main() {
                             valid = true;
                             break;
                         }
-                        println!("{:?}", dir_arr);
+                        // println!("{:?}", dir_arr);
                     }
                 }
             } else {
-                valid = false;
+                if valid {
+                    valid = false;
+                    let num: isize = curr_num.iter().fold(0, |acc, elem| acc * 10 + elem);
+                    total += num;
+                    // println!("num: {:}, total: {:}", num, total);
+                }
+                if curr_num.len() > 0 {
+                    println!("{:?}", curr_num);
+                }
                 curr_num = vec![];
             }
             // println!("{:?}", matrix[row][col]);
         } 
     }
+    println!("{:}", total);
     // println!("{:?}", matrix);
 }
