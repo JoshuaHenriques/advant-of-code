@@ -11,8 +11,8 @@ fn main() {
         .map(|line| line.expect("Could not parse line!"))
         .collect();
 
-    let ROWS = lines.len();
-    let COLS = lines[1].len();
+    let ROWS: usize = lines.len();
+    let COLS: usize = lines[1].len();
 
     // println!("strlen: {}, lineslen: {}", lines[1].len(), lines.len());
     let mut matrix: Vec<Vec<char>> = vec![vec!['.'; COLS];ROWS];
@@ -24,22 +24,22 @@ fn main() {
         }
     }
 
-    let mut curr_num: Vec<i32> = vec![];
+    let mut curr_num: Vec<isize> = vec![];
     let mut valid: bool = false;
 
     for row in 0..=ROWS - 1 {
         for col in 0..=COLS - 1 {
-            if matrix[row][col].is_numeric() {
-                curr_num.push(matrix[row][col] as i32);
+            if matrix[row as usize][col as usize].is_numeric() {
+                curr_num.push(matrix[row as usize][col as usize] as isize);
                 
                 if !valid {
-                    let dir: Vec<Vec<i32>> = vec![[0, -1].to_vec(), [0, 1].to_vec(), [1, 0].to_vec(), [-1, 0].to_vec(), [-1, -1].to_vec(), [1, 1].to_vec(), [-1, 1].to_vec(), [1, -1].to_vec()];
+                    let dir: Vec<Vec<isize>> = vec![[0, -1].to_vec(), [0, 1].to_vec(), [1, 0].to_vec(), [-1, 0].to_vec(), [-1, -1].to_vec(), [1, 1].to_vec(), [-1, 1].to_vec(), [1, -1].to_vec()];
                     
                     for dir_arr in dir {
-                        let rdr = row + dir_arr[0];
-                        let cdr = col + dir_arr[1];
+                        let rdr: isize = row + dir_arr[0];
+                        let cdc: isize = col + dir_arr[1];
 
-                        if rdr < ROWS && cdc < COLS && matrix[rdr][cdc] != '.' && !matrix[rdr][cdc].is_numeric() {
+                        if rdr >= 0 && cdc >= 0 && rdr < ROWS && cdc < COLS && matrix[rdr as usize][cdc as usize] != '.' && !matrix[rdr as usize][cdc as usize].is_numeric() {
                             valid = true;
                             break;
                         }
